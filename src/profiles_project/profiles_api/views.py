@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from . import serializers
 from rest_framework import status
+from . import models
 
 
 class HelloApiView(APIView):
@@ -84,3 +85,8 @@ class HelloViewSet(viewsets.ViewSet):
             'provides more functionality with less code.'
         ]
         return Response({'message': 'Hello', 'a_viewset': a_viewset})
+
+class userProfileViewSet(viewsets.ModelViewSet):
+    '''handles cerating , and updating a profile'''
+    serializer_class = serializers.userProfileSerializer
+    queryset = models.UserProfile.objects.all()
