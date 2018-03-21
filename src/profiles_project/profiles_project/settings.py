@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
 
+
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 
 # Password validation

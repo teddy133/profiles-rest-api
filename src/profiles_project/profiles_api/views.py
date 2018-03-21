@@ -10,6 +10,8 @@ from rest_framework import status
 from . import models
 from . import permissions
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import filters
 
 
@@ -97,4 +99,11 @@ class userProfileViewSet(viewsets.ModelViewSet):
     permission_classes =(permissions.UpdateOwnProfile, )
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name','email',)
-    
+
+class LoginViewSet(viewsets.ViewSet):
+    '''checks emails and password stuff. rutrn authotoken'''
+    serializer_class = AuthTokenSerializer
+
+    def create(self, request):
+        '''use the obtain autho toek api view to validate and create'''
+        return ObtainAuthToken().post(request)
