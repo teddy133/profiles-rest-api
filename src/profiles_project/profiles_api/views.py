@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Create your views here.
 
@@ -107,3 +108,14 @@ class LoginViewSet(viewsets.ViewSet):
     def create(self, request):
         '''use the obtain autho toek api view to validate and create'''
         return ObtainAuthToken().post(request)
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    '''handles the creation of profile feed items'''
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedSerializer
+    queryset = models.profileFeedItem.objects.all()
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
+
+    def perform_create(self, serialzer):
+        '''sets the user profile to the logged in user'''
+        serialzer.save(user_profile=self.request.user)
